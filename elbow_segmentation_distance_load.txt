@@ -1,0 +1,40 @@
+def elbow(image, kmax):
+  sse = []
+  points = image.reshape((-1, 3))
+  points = np.float32(points)
+  for k in range(3, kmax+1):
+    
+    curr_sse = 0
+    [segmented_image,centroids,pred_clusters]=Kmeans(points,k)
+    
+    for i in range(len(points)):
+      curr_center = centroids[pred_clusters[i]]
+      curr_sse += (points[i, 0] - curr_center[0]) ** 2 + (points[i, 1] - curr_center[1]) ** 2
+      
+    sse.append(curr_sse)
+  return sse
+
+def segmentation(image,OptimalK,cluster):
+    [segmented_image,c,labels]=Kmeans(image,OptimalK)
+    masked_image = np.copy(image)
+    masked_image = masked_image.reshape((-1, 3))
+    cluster = cluster
+    masked_image[labels == cluster] = [0, 0, 0]
+    masked_image = masked_image.reshape(image.shape)
+    return segmented_image, masked_image
+
+def calc_distance(x1,y1,a,b,c):
+    d=abs((a*x1+b*y1+c))/(math.sqrt(a*a+b*b))
+    return d
+
+def load(case=3, layer_no=161):
+  case, segmentation = load_case(case)
+  image_data = case.get_fdata()
+  layer = image_data[layer_no]
+  layer.shape
+  img_layer = np.array(layer)
+  pmax, pmin = np.max(img_layer), np.min(img_layer)
+  im_volume = (img_layer - pmin)/max(pmax - pmin, 1e-3)
+  im_volume = 255*im_volume
+  return np.array(im_volume).astype('uint8'), segmentation.get_data()[layer_no]
+
