@@ -1,0 +1,22 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+from skimage.color import rgb2gray
+from sklearn.metrics import confusion_matrix
+import math
+
+def Kmeans(image,k):   
+    pixel_values = image.reshape((-1, 3))
+    pixel_values = np.float32(pixel_values)
+    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 100, 0.2)
+    _, labels, (centers) = cv2.kmeans(pixel_values, k, None, criteria, 10, cv2.KMEANS_PP_CENTERS)
+
+    centers = np.uint8(centers)
+
+    labels = labels.flatten()
+    segmented_image = centers[labels.flatten()]
+
+    segmented_image = segmented_image.reshape(image.shape)
+    return segmented_image,centers,labels
+
+
