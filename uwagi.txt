@@ -1,0 +1,6 @@
+Zaproponowane podejście wygląda na poprawne, natomiast:
+
+1) Brak zaproponowanej metody ewaluacji ilościowej - poza wizualizacją dla kilku przypadków należy również wyznaczyć uśrednione wartości mial ilościowych dla wszystkich przypadków traktowanych przez Państwa jako testowe.
+2) To nie są obrazy MR.
+3) W jaki sposób wybierane są klastry reprezentujące nerki? Czy wybór jest automatyczny?
+
