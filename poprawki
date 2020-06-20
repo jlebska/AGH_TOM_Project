@@ -1,0 +1,61 @@
+#evaluation modification
+
+evaluation_results = []
+for i in range(30):
+  case, segmentation = load_case(i)
+  for j in range(100):
+    evaluation_results.append(evaluate_case(i, j))
+
+#loop stopped after 289 repetitions
+
+evaluation_results2 = []
+for i in range(30):
+    evaluation_results2.append(evaluate_case(i, 100))
+
+print(evaluation_results)
+print(len(evaluation_results))
+
+
+def results(evaluation_results, index):
+  # kidney segmentation evaluation
+  #mean
+  #index - 0 --> tumor+kidney; 1 --> tumor
+  s1 = 0
+  for result in evaluation_results:
+    s1 = s1 + result[index]
+  mean = s1/len(evaluation_results)
+  #standard deviation
+  sigma1 = 0
+  for result in evaluation_results:
+    sigma1 = sigma1 + (result[index]-mean_tumor_kidney1)**2
+  sd = np.sqrt(sigma1/(len(evaluation_results)-1)*len(evaluation_results))
+
+  return mean, sd
+
+mean11, sd11 = results(evaluation_results, index = 0)
+print("Wyniki dla wykrycia guza i nerek - 289 zdjęć ")
+print("średnia = ",mean11)
+print("odchylenie standardowe = ",sd11)
+print(" ")
+
+mean12, sd12 = results(evaluation_results, index = 1)
+print("Wyniki dla wykrycia guza - 289 zdjęć ")
+print("średnia = ",mean12)
+print("odchylenie standardowe = ",sd12)
+print(" ")
+
+
+mean21, sd21 = results(evaluation_results2, index = 0)
+print("Wyniki dla wykrycia guza i nerek - 30 zdjęć ")
+print("średnia = ", mean21)
+print("odchylenie standardowe = ", sd21)
+print(" ")
+
+
+mean22, sd22 = results(evaluation_results2, index = 1)
+print("Wyniki dla wykrycia guza - 30 zdjęć ")
+print("średnia = ", mean22)
+print("odchylenie standardowe = ",sd22)
+print(" ")
+
+	
